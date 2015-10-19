@@ -1,7 +1,8 @@
 <%= fetch(:rails_env) %>:
-  adapter: postgresql
-  timeout: 5000
-  encoding: utf8
+  adapter: postgis
+  encoding: unicode
+  postgis_extension: postgis
+  schema_search_path: public,postgis
   reconnect: false
   database: <%= "#{fetch(:application)}_#{fetch(:rails_env)}" %>
   pool: 5

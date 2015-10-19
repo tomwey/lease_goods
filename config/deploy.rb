@@ -1,7 +1,7 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'central_services'
+set :application, 'lease_goods'
 set :deploy_user, "deployer"
 
 set :scm, :git
@@ -23,9 +23,9 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # for details of operations
 set(:config_files, %w(
   nginx.conf
-  database.example.yml
+  database.yml
+  config.yml
   log_rotation
-  monit
   unicorn.rb
   unicorn_init.sh
 ))
@@ -52,10 +52,10 @@ set(:symlinks, [
     source: "log_rotation",
    link: "/etc/logrotate.d/{{full_app_name}}"
   },
-  {
-    source: "monit",
-    link: "/etc/monit/conf.d/{{full_app_name}}.conf"
-  }
+  # {
+  #   source: "monit",
+  #   link: "/etc/monit/conf.d/{{full_app_name}}.conf"
+  # }
 ])
 
 namespace :deploy do
@@ -76,7 +76,7 @@ namespace :deploy do
   
   # Restart monit so it will pick up any monit configurations
   # we've added
-  after 'deploy:setup_config', 'monit:restart'
+  # after 'deploy:setup_config', 'monit:restart'
   
   # As of Capistrano 3.1, the `deploy:restart` task is not called
   # automatically.

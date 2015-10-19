@@ -7,16 +7,12 @@
 set :stage, :production
 set :branch, 'master'
 
-# This is used in the Nginx VirtualHost to specify which domains
-# the app should appear on. If you don't yet have DNS setup, you'll
-# need to create entries in your local Hosts file for testing.
+role :app, %w{deployer@120.132.57.133}
+role :web, %w{deployer@120.132.57.133}
+role :db,  %w{deployer@120.132.57.133}
 
 set :server_name, "120.132.57.133"
-set :port, "6666"
-
-# role :app, %w{deployer@120.24.48.195}
-# role :web, %w{deployer@120.24.48.195}
-# role :db,  %w{deployer@120.24.48.195}
+set :port, "9191"
 
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 # set :server_name, "www.shuiguoshe.com shuiguoshe.com"

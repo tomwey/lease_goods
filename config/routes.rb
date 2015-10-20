@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  require 'api_v1'
   
-  mount API::APIV1 => '/'
+  # get 'api' => 'home#api', as: 'api'
+  
+  require 'dispatch'
+  mount GrapeSwaggerRails::Engine => '/apidoc'
+  mount API::Dispatch => '/api'
+  
 end

@@ -1,0 +1,9 @@
+"zh-CN":
+  api:
+    info:
+      title: My Awesome API
+      desc: Some detail info about this api.
+    a:
+      hi:
+        detail: "这是Hi"
+        params:

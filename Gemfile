@@ -48,8 +48,14 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
+# API
 gem 'grape'
-gem 'grape-entity'
+gem 'active_model_serializers'
+gem 'grape-active_model_serializers'
+gem 'grape-swagger', '~> 0.10.2'
+gem 'grape-swagger-rails', '~> 0.1.0'
+
+# gem 'grape-entity'
 
 # gem 'state_machine'
 

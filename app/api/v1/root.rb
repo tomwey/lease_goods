@@ -1,4 +1,6 @@
 require 'v1/helpers'
+require 'v1/entities'
+
 module V1
   class Root < Grape::API
     version 'v1'
@@ -6,7 +8,7 @@ module V1
     default_error_formatter :json
     content_type :json, 'application/json;charset=utf-8'
     format :json
-    formatter :json, Grape::Formatter::ActiveModelSerializers
+    # formatter :json, Grape::Formatter::ActiveModelSerializers
 
     # 异常处理
     rescue_from :all do |e|
@@ -31,7 +33,9 @@ module V1
     
     helpers V1::APIHelpers
     
-    mount V1::Welcome
+    # mount V1::Welcome
+    mount V1::Tags
+    
     add_swagger_documentation(
       :api_version => "api/v1",
       hide_documentation_path: true,

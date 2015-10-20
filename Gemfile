@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
@@ -50,12 +50,9 @@ gem 'spring',        group: :development
 
 # API
 gem 'grape'
-gem 'active_model_serializers'
-gem 'grape-active_model_serializers'
+gem 'grape-entity'
 gem 'grape-swagger', '~> 0.10.2'
 gem 'grape-swagger-rails', '~> 0.1.0'
-
-# gem 'grape-entity'
 
 # gem 'state_machine'
 

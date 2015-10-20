@@ -24,6 +24,11 @@ module V1
       end
     end
     
+    before do
+      header['Access-Control-Allow-Origin'] = '*'
+      header['Access-Control-Request-Method'] = '*'
+    end
+    
     helpers V1::APIHelpers
     
     mount V1::Welcome

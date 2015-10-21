@@ -9,15 +9,23 @@ class User < ActiveRecord::Base
   
   mount_uploader :avatar, AvatarUploader
   
+  before_create :generate_nickname
+  def generate_nickname
+    if self.nickname.blank?
+      rand_string = "u" + Array.new(6){[*'0'..'9'].sample}.join
+      self.nickname = rand_string
+    end
+  end
+  
   after_create :generate_private_token
   def generate_private_token
     random_key = "#{SecureRandom.hex(10)}"
     self.update_attribute(:private_token, random_key)
     
-    if self.nickname.blank?
-      rand_string = "u" + Array.new(6){[*'0'..'9'].sample}.join
-      self.update_attribute(:nickname, rand_string)
-    end
+    # if self.nickname.blank?
+    #   rand_string = "u" + Array.new(6){[*'0'..'9'].sample}.join
+    #   self.update_attribute(:nickname, rand_string)
+    # end
     
   end
   

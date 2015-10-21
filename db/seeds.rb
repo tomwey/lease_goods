@@ -6,19 +6,19 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+Unit.delete_all
+
+u1 = Unit.create!(name: "元/天")
+u2 = Unit.create!(name: "元/次")
+u3 = Unit.create!(name: "元")
+
 Tag.delete_all
 Tag.create!([
-  { name: "儿童玩具", sort: 1000 },
-  { name: '儿童读物', sort: 999 },
-  { name: '自行车', sort: 998 },
-  { name: '帐篷', sort: 997 },
-  { name: '单反相机', sort: 991 },
-  { name: '烧烤架子', sort: 990 },
+  { name: "儿童玩具", sort: 1000, unit_id: u1.id },
+  { name: '儿童读物', sort: 999, unit_id: u1.id },
+  { name: '自行车', sort: 998, unit_id: u1.id },
+  { name: '帐篷', sort: 997, unit_id: u2.id },
+  { name: '单反相机', sort: 991, unit_id: u2.id },
+  { name: '烧烤架子', sort: 990, unit_id: u1.id },
   ])
 
-Unit.delete_all
-Unit.create!([
-  { name: "元/天" },
-  { name: "元/次" },
-  { name: "元" },
-])

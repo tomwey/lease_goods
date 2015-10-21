@@ -23,7 +23,7 @@ set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 
 set :rails_env, :staging
 
-set :unicorn_worker_count, 2
+set :unicorn_worker_count, 1
 
 set :enable_ssl, false
 

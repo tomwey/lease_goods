@@ -6,8 +6,6 @@ module V1
         @tags = Tag.sorted.order('id desc')
         render_json(@tags, V1::Entities::Tag)
       end # end get /tags
-      
-      
     end # end resource
   end
 end

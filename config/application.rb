@@ -23,8 +23,8 @@ module CentralServices
     config.autoload_paths += %W(#{config.root}/app/api)
     
     # Reloading in Rails Applications
-    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
-    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+    # config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+    # config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
     
     # config.paths.add File.join("app", "api"), glob: File.join("**","*.rb")
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.

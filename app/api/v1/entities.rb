@@ -8,7 +8,8 @@ module V1
     
     # Tag
     class Tag < Base
-      expose :name, :sort
+      expose :name
+      expose :unit_name, as: :unit
     end
   end
 end

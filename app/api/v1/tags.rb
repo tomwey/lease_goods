@@ -5,7 +5,9 @@ module V1
       get do
         @tags = Tag.sorted.order('id desc')
         render_json(@tags, V1::Entities::Tag)
-      end # end /tags
+      end # end get /tags
+      
+      
     end # end resource
   end
 end

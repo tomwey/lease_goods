@@ -29,9 +29,23 @@ module V1
     before do
       header['Access-Control-Allow-Origin'] = '*'
       header['Access-Control-Request-Method'] = '*'
+      header 'X-Robots-Tag', 'noindex'
     end
     
     helpers V1::APIHelpers
+    
+    # 分页参数
+    # demo: 
+    # params do
+    #  use :pagination
+    # end
+    
+    helpers do
+      params :pagination do
+        optional :page, type: Integer
+        optional :size, type: Integer
+      end
+    end
     
     # mount V1::Welcome
     mount V1::Tags

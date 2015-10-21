@@ -48,7 +48,10 @@ module V1
     end
     
     # mount V1::Welcome
+    mount V1::AuthCodesAPI
     mount V1::Tags
+    mount V1::Items
+    mount V1::Users
     
     add_swagger_documentation(
       :api_version => "api/v1",

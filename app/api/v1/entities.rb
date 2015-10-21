@@ -10,6 +10,22 @@ module V1
     class Tag < Base
       expose :name
       expose :unit_name, as: :unit
-    end
+    end # end Tag
+    
+    # User
+    class UserNoToken < Base
+      expose :nickname, format_with: :null
+      expose :mobile, format_with: :null
+      expose :avatar, format_with: :null
+    end # end User
+    
+    # User
+    class User < Base
+      expose :private_token, as: :token, format_with: :null
+      expose :nickname, format_with: :null
+      expose :mobile, format_with: :null
+      expose :avatar, format_with: :null
+    end # end User
+    
   end
 end

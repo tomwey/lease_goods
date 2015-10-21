@@ -3,4 +3,8 @@ class Item < ActiveRecord::Base
   set_rgeo_factory_for_column :location, GEO_FACTORY
   
   belongs_to :tag
+  belongs_to :user
+  
+  has_many :photos, dependent: :destroy
+  
 end

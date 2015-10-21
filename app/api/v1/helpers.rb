@@ -27,6 +27,22 @@ module V1
       present target, :with => grape_entity
       body ( { code: 0, message:'ok', data: body } )
     end
+    
+    def render_empty_object
+      { code: 0, message: "ok", data: {} }
+    end
+    
+    def render_empty_collection
+      { code: 0, message: "ok", data: [] }
+    end
+    
+    def render_json_no_data
+      { code: 0, message: 'ok' }
+    end
+    
+    def render_error(code, msg)
+      { code: code, message: msg }
+    end 
   
     # 当前登录用户
     def current_user
@@ -36,7 +52,7 @@ module V1
   
     # 发送短信工具方法
     def send_sms(mobile, text, error_msg)
-      RestClient.post('http://yunpian.com/v1/sms/send.json', "apikey=7612167dc8177b2f66095f7bf1bddddca49d&mobile=#{mobile}&text=#{text}") { |response, request, result, &block|
+      RestClient.post('http://yunpian.com/v1/sms/send.json', "apikey=7612167dc8177b2f66095f7bf1bca49d&mobile=#{mobile}&text=#{text}") { |response, request, result, &block|
         resp = JSON.parse(response)
         if resp['code'] == 0
           { code: 0, message: "ok" }
@@ -70,8 +86,9 @@ module V1
   
     # 手机号验证
     def check_mobile(mobile)
+      return false if mobile.blank?
       return false if mobile.length != 11
-      mobile =~ /\A1[3|4|5|8][0-9]\d{4,8}\z/
+      mobile =~ /\A1[3|4|5|8|7][0-9]\d{4,8}\z/
     end
   
     # end helpers

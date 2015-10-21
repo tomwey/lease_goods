@@ -16,7 +16,7 @@ module V1
     class UserNoToken < Base
       expose :nickname, format_with: :null
       expose :mobile, format_with: :null
-      expose :avatar, format_with: :null
+      expose :real_avatar_url, as: :avatar
     end # end User
     
     # User
@@ -24,7 +24,7 @@ module V1
       expose :private_token, as: :token, format_with: :null
       expose :nickname, format_with: :null
       expose :mobile, format_with: :null
-      expose :avatar, format_with: :null
+      expose :real_avatar_url, as: :avatar
     end # end User
     
   end

@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   validates :mobile, format: { with: /\A1[3|4|5|8|7][0-9]\d{4,8}\z/, message: "请输入11位正确手机号" }, 
   length: { is: 11 }, :uniqueness => true
   
+  mount_uploader :avatar, AvatarUploader
+  
   after_create :generate_private_token
   def generate_private_token
     random_key = "#{SecureRandom.hex(10)}"
@@ -18,4 +20,13 @@ class User < ActiveRecord::Base
     end
     
   end
+  
+  def real_avatar_url
+    if self.avatar.present?
+      self.avatar.url(:big)
+    else
+      ""
+    end
+  end
+  
 end

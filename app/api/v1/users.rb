@@ -74,7 +74,8 @@ module V1
           return render_json(authorization.user, V1::Entities::User)
         end
         
-        user = User.new(mobile: params[:mobile], avatar: params[:avatar_url], nickname: params[:nickname])
+        user = User.new(mobile: params[:mobile], nickname: params[:nickname])
+        user.remote_avatar_url = params[:avatar_url]
         user.authorizations << Authorization.new(uid: params[:uid], provider: params[:provider])
         
         if user.save
@@ -106,6 +107,31 @@ module V1
         end
         
         user.mobile = params[:mobile]
+        if user.save
+          render_json(user, V1::Entities::User)
+        else
+          render_error(1006, user.errors.full_messages.join(","))
+        end
+        
+      end # end post update_mobile
+      
+      desc "修改昵称或者头像"
+      params do
+        requires :token,    type: String,  desc: "用户认证Token"
+        optional :nickname, type: String,  desc: "用户昵称"
+        optional :avatar,   type: Rack::Multipart::UploadedFile, desc: "用户头像图片"
+      end
+      post :update_profile do
+        user = authenticate!
+        
+        if params[:nickname]
+          user.nickname = params[:nickname]
+        end
+        
+        if params[:avatar]
+          user.avatar = params[:avatar]
+        end
+        
         if user.save
           render_json(user, V1::Entities::User)
         else

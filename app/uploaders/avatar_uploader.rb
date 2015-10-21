@@ -24,6 +24,10 @@ class AvatarUploader < BaseUploader
     end
   end
   
+  def store_dir
+    "uploads/#{model.class.to_s.underscore}/#{model.id}"
+  end
+  
   def extension_white_list
     %w(jpg jpeg png)
   end

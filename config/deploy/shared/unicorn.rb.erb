@@ -19,7 +19,7 @@ end
 before_fork do |server, worker|  
   # 参考 http://unicorn.bogomips.org/SIGNALS.html  
   # 使用USR2信号，以及在进程完成后用QUIT信号来实现无缝重启  
-  old_pid = root + '/tmp/pids/unicorn_daydayup.pid.oldbin'  
+  old_pid = root + '/tmp/pids/unicorn.pid.oldbin'  
   if File.exists?(old_pid) && server.pid != old_pid  
     begin  
       Process.kill("QUIT", File.read(old_pid).to_i)  

@@ -22,7 +22,7 @@ module V1
         }.to_json], 400, {}).finish
       else
         Rails.logger.error "APIv1 Error: #{e}\n#{e.backtrace.join("\n")}"
-        Rack::Response.new([{ error: "API 接口异常"}.to_json], 500, {}).finish
+        Rack::Response.new([{ error: "API 接口异常: \n#{e}\n#{e.backtrace.join("\n")}"}.to_json], 500, {}).finish
       end
     end
     

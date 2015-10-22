@@ -1,7 +1,75 @@
 module V1
   class Items < Grape::API
     
+    helpers do
+      params :pagination do
+        optional :page, type: Integer, desc: "当前页"
+        optional :size, type: Integer, desc: "分页大小，默认值为：15"
+      end
+    end
+    
     resource :items do
+      
+      desc "获取当前位置附近的产品，支持分页"
+      params do 
+        requires :location, type: String, desc: "当前经纬度坐标，值格式为：经度,纬度，例如：120.123455,34.098763"
+        optional :range, type: Integer, default: 2000, desc: "覆盖的范围，以米为单位，默认为2000米范围内的"
+        optional :tag_id, type: Integer, desc: "类别ID，如果该参数不传，那么取所有类别的数据"
+        optional :sort, type: String, desc: "排序方式，值格式为：字段,asc(升序)或者字段,desc(降序)，例如：id,asc或者id,desc"
+        use :pagination
+      end
+      get :nearby do
+        range = params[:range].to_i.zero? ? 2000 : params[:range].to_i
+        
+        # location 参数检测
+        values = params[:location].split(',')
+        if values.size != 2
+          return render_error(-1, "不正确的location参数值，值例如：120.123455,34.098763")
+        end
+        
+        longitude = params[:location].split(',').first.to_s
+        latitude  = params[:location].split(',').last.to_s
+        
+        tag_id = params[:tag_id]
+        # 类别检测
+        if tag_id.blank?
+          @items = Item.all
+        else
+          tag = Tag.find_by(id: tag_id.to_i)
+          if tag.blank?
+            return render_error(4004, "没有该类别")
+          end
+          
+          @items = Item.where(tag_id: tag.id)
+        end
+        
+        @items = @items.includes(:tag, :photos).select("items.*, st_distance(location, 'point(#{longitude} #{latitude})') as distance").where("st_dwithin(location, 'point(#{longitude} #{latitude})', #{range})").no_delete
+        
+        # 排序
+        if params[:sort]
+          sort_values = params[:sort].split(',')
+          if sort_values.size != 2
+            return render_error(-1, "不正确的sort参数值，格式为：字段,asc或字段,desc，值例如：id,asc或id,desc")
+          end
+          sort_by = "#{sort_values.first} #{sort_values.last}"
+          @items = @items.order(sort_by)
+        else
+          @items = @items.order('id desc')
+        end
+        
+        # 分页处理
+        if params[:page]
+          @items = @items.paginate page: params[:page], per_page: page_size
+        end
+        
+        if @items.empty?
+          render_empty_collection
+        else
+          render_json(@items, V1::Entities::Item)
+        end
+        
+      end # end get nearby
+      
       desc "发布一个产品" do
         detail "注意：此接口还必须传入多张图片，参数的名字以：photo为前缀，后面跟数字，例如：photo0, photo1, photo2..."
       end

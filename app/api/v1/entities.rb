@@ -34,6 +34,9 @@ module V1
       expose :format_fee, as: :fee
       expose :format_location, as: :location
       expose :first_thumb_image, as: :thumb_image
+      expose :tag_name do |model, opts|
+        model.tag.try(:name) || ""
+      end
     end
     
   end

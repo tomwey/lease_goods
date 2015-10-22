@@ -32,6 +32,8 @@ module V1
         end
         
         item = Item.new(title: params[:title], tag_id: tag.id, fee: params[:fee], deposit: params[:deposit])
+        item.user_id = user.id
+        # item.placement = params[:placement]
         
       end # end create
       

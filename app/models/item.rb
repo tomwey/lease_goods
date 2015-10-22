@@ -11,5 +11,9 @@ class Item < ActiveRecord::Base
   validates :fee, :deposit, format: { with: /\d+/, message: "必须是整数" }
   validates :fee, :deposit, numericality: { greater_than_or_equal_to: 0 }
   
+  # 产品详情查看统计
+  def add_visit
+    self.class.increment_counter(:hits, self.id)
+  end
   
 end

@@ -1,6 +1,5 @@
 module V1
-  module APIHelpers
-  
+  module APIHelpers    
     # 获取服务器session
     def session
       env[Rack::Session::Abstract::ENV_SESSION_KEY]
@@ -26,6 +25,11 @@ module V1
     def render_json(target, grape_entity)
       present target, :with => grape_entity
       body ( { code: 0, message:'ok', data: body } )
+    end
+    
+    def render_paginate_json(target, total, grape_entity)
+      present target, :with => grape_entity
+      body ( { code: 0, message:'ok', data: body, total: total } )
     end
     
     def render_empty_object

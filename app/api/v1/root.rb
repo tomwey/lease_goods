@@ -42,8 +42,8 @@ module V1
     
     helpers do
       params :pagination do
-        optional :page, type: Integer
-        optional :size, type: Integer
+        optional :page, type: Integer, desc: "当前页"
+        optional :size, type: Integer, desc: "分页大小，默认值为：15"
       end
     end
     

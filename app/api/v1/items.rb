@@ -62,6 +62,52 @@ module V1
         
       end # end create
       
+      desc "收藏产品"
+      params do
+        requires :token, type: String, desc: "收藏产品"
+      end
+      post '/:item_id/favorite' do
+        user = authenticate!
+        
+        item = Item.find_by(id: params[:item_id])
+        if item.blank?
+          return render_error(4004, "要收藏的产品不存在")
+        end
+        
+        if user.favorited_item?(item.id)
+          return render_error(5000, "您已经收藏过该产品")
+        end
+        
+        if user.favorite_item(item.id)
+          render_json_no_data
+        else
+          render_error(5001, "收藏产品失败")
+        end
+      end # end post favorite 
+      
+      desc "取消收藏产品"
+      params do
+        requires :token, type: String, desc: "收藏产品"
+      end
+      post '/:item_id/unfavorite' do
+        user = authenticate!
+        
+        item = Item.find_by(id: params[:item_id])
+        if item.blank?
+          return render_error(4004, "要取消收藏的产品不存在")
+        end
+        
+        if not user.favorited_item?(item.id)
+          return render_error(5000, "您还未收藏该产品")
+        end
+        
+        if user.unfavorite_item(item.id)
+          render_json_no_data
+        else
+          render_error(5001, "取消收藏产品失败")
+        end
+      end # end post unfavorite 
+      
     end # end resource items
     
   end

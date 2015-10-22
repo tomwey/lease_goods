@@ -1,6 +1,13 @@
 module V1
   class Users < Grape::API
     
+    helpers do
+      params :pagination do
+        optional :page, type: Integer, desc: "当前页"
+        optional :size, type: Integer, desc: "分页大小，默认值为：15"
+      end
+    end
+        
     resource :account do
       desc "用户登录"
       params do
@@ -59,6 +66,31 @@ module V1
         
         render_json(user, V1::Entities::UserNoToken)
       end # end get /other
+      
+      desc "获取我收藏的产品，支持分页"
+      params do
+        requires :token, type: String, desc: "用户认证Token"
+        use :pagination
+      end
+      get :favorited_items do
+        user = authenticate!
+        
+        @items = Item.includes(:tag).no_delete.where(id: user.favorite_item_ids).order('id desc')
+        if params[:page]
+          @items = @items.paginate page: params[:page], per_page: page_size
+        end
+        
+        if @items.empty?
+          render_empty_collection
+        else
+          if params[:page]
+            render_paginate_json(@items, @items.total_entries, V1::Entities::Item)
+          else
+            render_json(@items, V1::Entities::Item)
+          end
+        end
+        
+      end # end get favorited_items
       
       desc "第三方登录绑定用户数据"
       params do

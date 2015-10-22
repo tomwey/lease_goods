@@ -70,6 +70,25 @@ module V1
         
       end # end get nearby
       
+      desc "获取产品详情"
+      params do
+        optional :token, type: String, desc: "用户认证Token"
+      end
+      get '/show/:item_id' do
+        item = Item.includes(:tag, :user, :photos).find_by(id: params[:item_id])
+        if item.blank?
+          return render_error(4004, "没有该产品")
+        end
+        
+        if params[:token]
+          user = User.find_by(private_token: params[:token])
+          item.is_favorited = user.favorited_item?(item.id) if user.present?
+        end
+        
+        render_json(item, V1::Entities::ItemDetail)
+        
+      end # end get show/123
+      
       desc "发布一个产品" do
         detail "注意：此接口还必须传入多张图片，参数的名字以：photo为前缀，后面跟数字，例如：photo0, photo1, photo2..."
       end

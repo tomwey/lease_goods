@@ -21,10 +21,25 @@ module V1
       expose :favorite_item_counts
     end # end User
     
+    # Photo
+    class Photo < Base
+      expose :thumb_image do |model, opts|
+        model.image_url(:thumb)
+      end
+      expose :large_image do |model, opts|
+        model.image_url(:large)
+      end
+    end
+    
     # User
     class UserNoToken < User
       unexpose :private_token
     end # end User
+    
+    # ItemUser
+    class ItemUser < UserNoToken
+      expose :items_count
+    end
     
     # Item
     class Item < Base
@@ -36,6 +51,15 @@ module V1
       expose :first_thumb_image, as: :thumb_image
       expose :tag_name do |model, opts|
         model.tag.try(:name) || ""
+      end
+    end
+    
+    # ItemDetail
+    class ItemDetail < Item
+      unexpose :first_thumb_image
+      expose :user, as: :owner, using: V1::Entities::ItemUser
+      expose :photos, using: V1::Entities::Photo do |model, opts|
+        model.photos.order('id asc')
       end
     end
     

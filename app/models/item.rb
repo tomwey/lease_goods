@@ -1,4 +1,7 @@
 class Item < ActiveRecord::Base
+  
+  attr_accessor :is_favorited
+  
   GEO_FACTORY = RGeo::Geographic.spherical_factory(srid: 4326)
   set_rgeo_factory_for_column :location, GEO_FACTORY
     
@@ -37,7 +40,7 @@ class Item < ActiveRecord::Base
     if photos.empty?
       ""
     else
-      photos.first.image_url(:thumb)
+      photos.order('id asc').first.image_url(:thumb)
     end
   end
   

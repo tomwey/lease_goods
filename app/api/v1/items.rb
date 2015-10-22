@@ -31,9 +31,34 @@ module V1
           return render_error(4004, '不正确的类别ID')
         end
         
-        item = Item.new(title: params[:title], tag_id: tag.id, fee: params[:fee], deposit: params[:deposit])
-        item.user_id = user.id
-        # item.placement = params[:placement]
+        item = Item.new(title: params[:title], 
+                        tag_id: tag.id, 
+                        user_id: user.id,
+                        fee: params[:fee], 
+                        deposit: params[:deposit],
+                        placement: params[:placement],
+                        intro: params[:intro],
+                        note: params[:note])
+        
+        # 设置位置                
+        longitude = params[:location].split(',').first
+        latitude  = params[:location].split(',').last
+        item.location = 'POINT(' + "#{longitude}" + ' ' + "#{latitude}" + ')'
+        
+        # 设置图片
+        params.each do |key, value|
+          if key.to_s =~ /photo\d+/
+            photo = Photo.new(image: value)
+            item.photos << photo
+          end
+        end
+        
+        # 保存
+        if item.save
+          render_json_no_data
+        else
+          render_error(3001, item.errors.full_messages.join(','))
+        end
         
       end # end create
       

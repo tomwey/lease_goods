@@ -5,12 +5,33 @@
       admin: "管理员"
       category: "类别"
       banner: "广告"
+      tag: "类别"
+      photo: "图片"
+      unit: "单位"
     attributes:
       user:
         mobile: "手机"
         nickname: "昵称"
         avatar: "头像"
-        signature: "个性签名"
+      tag:
+        name: "类别名"
+        unit_id: "单位"
+        sort: "排序"
+      unit:
+        name: "单位名称"
+      item:
+        title: "产品标题"
+        tag_id: "所属类别"
+        user_id: "所属用户"
+        fee: "租金单价"
+        deposit: "保证金"
+        location: "发布产品的位置坐标"
+        placement: "发布产品的位置建筑物名称"
+        intro: "产品简介"
+        note: "备注"
+        photos: "产品图片集"
+      photo:
+        image: "产品图片"
       admin:
         email: "邮箱"
         password: "密码"
@@ -30,6 +51,10 @@
         user: "用户"
         admin: "管理员"
         category: "类别"
+        tag: "类别"
+        item: "产品"
+        photo: "图片"
+        unit: "单位"
       messages:
         inclusion: "不包含于列表中"
         exclusion: "是保留关键字"

@@ -75,7 +75,7 @@ module V1
         optional :token, type: String, desc: "用户认证Token"
       end
       get '/show/:item_id' do
-        item = Item.includes(:tag, :user, :photos).find_by(id: params[:item_id])
+        item = Item.includes(:tag, :user, :photos, :comments).find_by(id: params[:item_id])
         if item.blank?
           return render_error(4004, "没有该产品")
         end

@@ -9,6 +9,7 @@ class Item < ActiveRecord::Base
   belongs_to :user, counter_cache: true
    
   has_many :photos, dependent: :destroy
+  has_many :comments, dependent: :destroy
   
   validates :title, :tag_id, :user_id, :fee, :deposit, :location, :photos, presence: true
   validates :fee, :deposit, format: { with: /\d+/, message: "必须是整数" }
@@ -42,6 +43,11 @@ class Item < ActiveRecord::Base
     else
       photos.order('id asc').first.image_url(:thumb)
     end
+  end
+  
+  # 获取第一条评论
+  def first_comment
+    comments.order('id desc').first
   end
   
 end

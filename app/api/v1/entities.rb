@@ -41,6 +41,19 @@ module V1
       expose :items_count
     end
     
+    # CommentUser
+    class CommentUser < Base
+      expose :nickname, format_with: :null
+      expose :real_avatar_url, as: :avatar
+    end
+    
+    # CommentDetail
+    class CommentDetail < Base
+      expose :body, format_with: :null
+      expose :created_at, as: :commented_at, format_with: :chinese_datetime
+      expose :user, using: V1::Entities::CommentUser
+    end
+    
     # Item
     class Item < Base
       with_options(format_with: :null) do
@@ -57,7 +70,9 @@ module V1
     # ItemDetail
     class ItemDetail < Item
       unexpose :first_thumb_image
-      expose :user, as: :owner, using: V1::Entities::ItemUser
+      expose :comments_count
+      expose :user, using: V1::Entities::ItemUser
+      expose :first_comment, using: V1::Entities::CommentDetail, if: ->(model, opts) { model.comments_count != 0 }
       expose :photos, using: V1::Entities::Photo do |model, opts|
         model.photos.order('id asc')
       end

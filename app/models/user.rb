@@ -67,6 +67,65 @@ class User < ActiveRecord::Base
     true
   end
   
+  # 是否已经关注了某个用户
+  def followed?(user)
+    return false if user.blank?
+    uid = user.is_a?(User) ? user.id : user
+    following_ids.include?(uid)
+  end
+  
+  # 关注用户
+  def follow_user(user)
+    return false if user.blank?
+    
+    self.following_ids << user.id
+    following_ids_will_change!
+    self.save!
+    
+    user.inverse_follow_user(self)
+  end
+  
+  # 反向关系被关注
+  def inverse_follow_user(user)
+    return false if user.blank?
+    
+    self.follower_ids << user.id
+    follower_ids_will_change!
+    self.save!
+    
+    true
+  end
+  
+  # 取消关注用户
+  def unfollow_user(user)
+    return false if user.blank?
+    
+    self.following_ids.delete(user.id)
+    following_ids_will_change!
+    self.save!
+    
+    user.inverse_unfollow_user(self)
+  end
+  
+  # 反向关系被取消关注
+  def inverse_unfollow_user(user)
+    return false if user.blank?
+    
+    self.follower_ids.delete(user.id)
+    follower_ids_will_change!
+    self.save!
+    
+    true
+  end
+  
+  def followers_count
+    follower_ids.count
+  end
+    
+  def following_count
+    following_ids.count
+  end
+  
   # 获取头像地址
   def real_avatar_url
     if self.avatar.present?

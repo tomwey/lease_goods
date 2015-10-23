@@ -18,7 +18,7 @@ module V1
       expose :nickname, format_with: :null
       expose :mobile, format_with: :null
       expose :real_avatar_url, as: :avatar
-      expose :favorite_item_counts
+      expose :favorite_item_counts, :followers_count, :following_count
     end # end User
     
     # Photo

@@ -92,6 +92,93 @@ module V1
         
       end # end get favorited_items
       
+      desc "关注某个用户"
+      params do
+        requires :token,   type: String,  desc: "用户认证Token"
+        requires :user_id, type: Integer, desc: "被关注用户的ID"
+      end
+      post :follow do
+        user = authenticate!
+        
+        other = User.find_by(id: params[:user_id])
+        
+        if user == other
+          return render_error(2001, "您不能关注您自己")
+        end
+        
+        if user.followed?(other)
+          return render_error(2001, "您已经关注了该用户")
+        end
+        
+        if user.follow_user(other)
+          render_json_no_data
+        else
+          render_error(2002, '关注用户失败')
+        end
+      end # end post follow
+      
+      desc "取消关注某个用户"
+      params do
+        requires :token,   type: String,  desc: "用户认证Token"
+        requires :user_id, type: Integer, desc: "被关注用户的ID"
+      end
+      post :unfollow do
+        user = authenticate!
+        
+        other = User.find_by(id: params[:user_id])
+        if not user.followed_user?(other)
+          return render_error(2001, "您还未关注该用户, 不能取消关注")
+        end
+        
+        if user.unfollow_user(other)
+          render_json_no_data
+        else
+          render_error(2002, '取消关注用户失败')
+        end
+      end # end post unfollow
+      
+      desc "获取我关注的用户，支持分页"
+      params do
+        requires :token, type: String, desc: "用户认证Token"
+        use :pagination
+      end
+      get :following_users do
+        user = authenticate!
+        
+        @users = User.where(id: user.following_ids).order('id desc')
+        if params[:page]
+          @users = @users.paginate page: params[:page], per_page: page_size
+        end
+        
+        if @users.empty?
+          render_empty_collection
+        else
+          render_json(@users, V1::Entities::UserNoToken)
+        end
+        
+      end # end get following_users
+      
+      desc "获取我的粉丝，支持分页"
+      params do
+        requires :token, type: String, desc: "用户认证Token"
+        use :pagination
+      end
+      get :followers do
+        user = authenticate!
+        
+        @users = User.where(id: user.follower_ids).order('id desc')
+        if params[:page]
+          @users = @users.paginate page: params[:page], per_page: page_size
+        end
+        
+        if @users.empty?
+          render_empty_collection
+        else
+          render_json(@users, V1::Entities::UserNoToken)
+        end
+        
+      end # end get followers
+      
       desc "第三方登录绑定用户数据"
       params do
         requires :provider,    type: String, desc: "第三方登录平台名，该参数的值固定为：Sina或QQ，例如：Sina, QQ"

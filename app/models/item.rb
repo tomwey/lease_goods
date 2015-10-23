@@ -50,4 +50,11 @@ class Item < ActiveRecord::Base
     comments.order('id desc').first
   end
   
+  # 获取评分
+  def rate
+    stars = comments.to_a.sum(&:star)
+    return 0.0 if comments_count == 0
+    format("%.1f",(Float(stars) / comments_count)).to_f
+  end
+  
 end

@@ -70,6 +70,7 @@ module V1
     # ItemDetail
     class ItemDetail < Item
       unexpose :first_thumb_image
+      expose :rate
       expose :comments_count
       expose :user, using: V1::Entities::ItemUser
       expose :first_comment, using: V1::Entities::CommentDetail, if: ->(model, opts) { model.comments_count != 0 }

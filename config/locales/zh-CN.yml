@@ -8,6 +8,7 @@
       tag: "类别"
       photo: "图片"
       unit: "单位"
+      report: "举报"
     attributes:
       user:
         mobile: "手机"
@@ -32,6 +33,8 @@
         photos: "产品图片集"
       photo:
         image: "产品图片"
+      report:
+        content: "内容 "
       admin:
         email: "邮箱"
         password: "密码"
@@ -55,6 +58,7 @@
         item: "产品"
         photo: "图片"
         unit: "单位"
+        report: "举报"
       messages:
         inclusion: "不包含于列表中"
         exclusion: "是保留关键字"

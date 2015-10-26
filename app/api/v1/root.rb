@@ -53,6 +53,7 @@ module V1
     mount V1::Tags
     mount V1::Items
     mount V1::Comments
+    mount V1::Reports
     
     add_swagger_documentation(
       :api_version => "api/v1",

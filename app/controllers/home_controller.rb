@@ -1,4 +1,9 @@
 class HomeController < ApplicationController
+  
+  def index
+    redirect_to admin_root_url
+  end
+  
   def api
     @routes = []
     API::Dispatch.routes.each do |route|

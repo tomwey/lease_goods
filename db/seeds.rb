@@ -22,4 +22,4 @@ Tag.create!([
   { name: '烧烤架子', sort: 990, unit_id: u1.id },
   ])
 
-Admin.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')Item.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
+# Admin.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')Item.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')

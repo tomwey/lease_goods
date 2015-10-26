@@ -27,6 +27,9 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'bootstrap_helper', '4.2.3'
 
+# 后台管理系统
+gem 'activeadmin', '~> 1.0.0.pre2'
+
 # 登陆
 gem 'devise'
 

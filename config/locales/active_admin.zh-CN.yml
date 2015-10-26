@@ -1,0 +1,5 @@
+"zh-CN":
+  active_admin:
+    filters:
+      predicates:
+        eq: '等于'

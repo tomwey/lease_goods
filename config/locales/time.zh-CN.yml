@@ -1,0 +1,4 @@
+"zh-CN":
+  time:
+    formats:
+      long: '%Y-%d-%m %H:%M:%S'

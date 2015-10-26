@@ -9,6 +9,7 @@
       photo: "图片"
       unit: "单位"
       report: "举报"
+      item: "产品"
     attributes:
       user:
         mobile: "手机"

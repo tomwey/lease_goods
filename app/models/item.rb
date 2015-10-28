@@ -57,4 +57,16 @@ class Item < ActiveRecord::Base
     format("%.1f",(Float(stars) / comments_count)).to_f
   end
   
+  # 软删除
+  def delete!
+    self.visible = false
+    self.save!
+  end
+  
+  # 取消删除
+  def restore!
+    self.visible = true
+    self.save!
+  end
+  
 end

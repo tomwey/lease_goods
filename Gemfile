@@ -28,7 +28,8 @@ gem 'will_paginate-bootstrap'
 gem 'bootstrap_helper', '4.2.3'
 
 # 后台管理系统
-gem 'activeadmin', '~> 1.0.0.pre2'
+# gem 'activeadmin', '~> 1.0.0.pre2'
+gem 'activeadmin'
 
 # 登陆
 gem 'devise'
@@ -61,7 +62,7 @@ gem 'grape-swagger-rails', '~> 0.1.0'
 
 gem 'rest-client'
 
-gem 'newrelic-grape'
+# gem 'newrelic-grape'
 
 gem 'rack-cors', require: 'rack/cors'
 gem 'rack-utf8_sanitizer'

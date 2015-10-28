@@ -1,5 +1,11 @@
 "zh-CN":
   active_admin:
+    batch_actions:
+      labels:
+        delete: "删除"
+        restore: "恢复"
+        block: "禁用"
+        unblock: "启用"
     filters:
       predicates:
         eq: '等于'

@@ -171,10 +171,6 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
     netrc (0.10.2)
-    newrelic-grape (2.0.0)
-      grape
-      newrelic_rpm
-    newrelic_rpm (3.12.0.288)
     orm_adapter (0.5.0)
     pg (0.18.2)
     polyamorous (1.2.0)
@@ -281,7 +277,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activeadmin (~> 1.0.0.pre2)
+  activeadmin
   activerecord-postgis-adapter
   annotate (~> 2.6.5)
   bootstrap-sass (~> 3.2.0)
@@ -299,7 +295,6 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mini_magick (~> 4.2.7)
-  newrelic-grape
   pg
   posix-spawn
   quiet_assets

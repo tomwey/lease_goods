@@ -118,6 +118,17 @@ class User < ActiveRecord::Base
     true
   end
   
+  # 禁用用户
+  def block!
+    self.verified = false
+    self.save!
+  end
+  # 取消禁用
+  def unblock!
+    self.verified = true
+    self.save!
+  end
+  
   def followers_count
     follower_ids.count
   end

@@ -58,11 +58,13 @@ gem 'grape-entity'
 gem 'grape-swagger', '~> 0.10.2'
 gem 'grape-swagger-rails', '~> 0.1.0'
 
+# API性能统计
+gem 'newrelic_rpm'
+gem 'newrelic-grape'
+
 # gem 'state_machine'
 
 gem 'rest-client'
-
-# gem 'newrelic-grape'
 
 gem 'rack-cors', require: 'rack/cors'
 gem 'rack-utf8_sanitizer'

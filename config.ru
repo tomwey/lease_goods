@@ -12,6 +12,6 @@ use Unicorn::WorkerKiller::Oom, (192*(1024**2)), (256*(1024**2))
 require ::File.expand_path('../config/environment',  __FILE__)
 
 # You need to manually start the agent
-# NewRelic::Agent.manual_start
+NewRelic::Agent.manual_start
 
 run Rails.application

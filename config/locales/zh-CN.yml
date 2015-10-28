@@ -10,6 +10,7 @@
       unit: "单位"
       report: "举报"
       item: "产品"
+      user_comment: "评论"
     attributes:
       user:
         mobile: "手机"

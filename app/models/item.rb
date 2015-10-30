@@ -23,12 +23,11 @@ class Item < ActiveRecord::Base
     where("st_dwithin(location, 'point(#{longitude} #{latitude})', #{range})") }
   
   # 全文检索scope
-  # pg_search_scope :search, :against => {
-  #   :title => 'A',
-  #   :placement => 'B',
-  #   :intro => 'C',
-  # }
-  pg_search_scope :search, :against => :title
+  pg_search_scope :search, :against => {
+    :title => 'A',
+    :placement => 'B',
+    :intro => 'C',
+  }
   
   # 排序
   def self.sort_by(value)

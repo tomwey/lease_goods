@@ -8,6 +8,9 @@ gem 'pg'
 gem 'rgeo'
 gem 'activerecord-postgis-adapter'
 
+# Add Text Full Search with Postgresql func
+gem 'pg_search'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets

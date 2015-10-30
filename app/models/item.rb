@@ -1,4 +1,5 @@
 class Item < ActiveRecord::Base
+  include PgSearch # 加入全文检索功能
   
   attr_accessor :is_favorited
   
@@ -16,6 +17,29 @@ class Item < ActiveRecord::Base
   validates :fee, :deposit, numericality: { greater_than_or_equal_to: 0 }
   
   scope :no_delete, -> { where(visible: true) }
+  # 通过经纬度查询一定范围内的数据，range单位是米
+  scope :select_with_location, -> (longitude, latitude, range) { 
+    select("items.*, st_distance(location, 'point(#{longitude} #{latitude})') as distance").
+    where("st_dwithin(location, 'point(#{longitude} #{latitude})', #{range})") }
+  
+  # 根据距离进行排序，支持升序或降序
+  scope :order_by_distance, -> (sort = 'ASC') { order("distance #{sort}") }
+  
+  # 全文检索scope
+  pg_search_scope :search, :against => {
+    :title => 'A',
+    :placement => 'B',
+    :intro => 'C',
+  }
+  
+  # 排序
+  def self.sort_by(value)
+    if value.blank?
+      order('id DESC')
+    else
+      order("#{value}")
+    end
+  end
   
   # 产品详情查看统计
   def add_visit
@@ -33,7 +57,7 @@ class Item < ActiveRecord::Base
   
   # 格式化租金单价
   def format_fee
-    "#{fee}#{tag.unit_name}"
+    "#{fee}#{tag.try(:unit_name)}"
   end
   
   # 获取第一张图片

@@ -177,6 +177,10 @@ GEM
     newrelic_rpm (3.12.0.288)
     orm_adapter (0.5.0)
     pg (0.18.2)
+    pg_search (1.0.5)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+      arel
     polyamorous (1.2.0)
       activerecord (>= 3.0)
     posix-spawn (0.3.11)
@@ -302,6 +306,7 @@ DEPENDENCIES
   newrelic-grape
   newrelic_rpm
   pg
+  pg_search
   posix-spawn
   quiet_assets
   rack-cors

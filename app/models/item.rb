@@ -22,15 +22,13 @@ class Item < ActiveRecord::Base
     select("items.*, st_distance(location, 'point(#{longitude} #{latitude})') as distance").
     where("st_dwithin(location, 'point(#{longitude} #{latitude})', #{range})") }
   
-  # 根据距离进行排序，支持升序或降序
-  scope :order_by_distance, -> (sort = 'ASC') { order("distance #{sort}") }
-  
   # 全文检索scope
-  pg_search_scope :search, :against => {
-    :title => 'A',
-    :placement => 'B',
-    :intro => 'C',
-  }
+  # pg_search_scope :search, :against => {
+  #   :title => 'A',
+  #   :placement => 'B',
+  #   :intro => 'C',
+  # }
+  pg_search_scope :search, :against => :title
   
   # 排序
   def self.sort_by(value)

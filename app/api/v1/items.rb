@@ -10,12 +10,13 @@ module V1
     
     resource :items do
       
-      desc "获取当前位置附近的产品，支持分页"
+      desc "获取当前位置附近的产品，如果传了搜索关键字参数，那么会返回与关键字匹配的产品，支持排序和分页"
       params do 
         requires :location, type: String, desc: "当前经纬度坐标，值格式为：经度,纬度，例如：120.123455,34.098763"
         optional :range, type: Integer, default: 2000, desc: "覆盖的范围，以米为单位，默认为2000米范围内的"
         optional :tag_id, type: Integer, desc: "类别ID，如果该参数不传，那么取所有类别的数据"
         optional :sort, type: String, desc: "排序方式，支持多个字段排序；值格式为：字段1 asc(升序),字段2 desc(降序),...，例如：id asc,likes_count desc,..."
+        optional :keyword, type: String, desc: "搜索关键字，目前暂时支持对产品标题的搜索"
         use :pagination
       end
       get :nearby do
@@ -44,6 +45,11 @@ module V1
         end
         
         @items = @items.includes(:tag, :photos).no_delete.select_with_location(longitude, latitude, range)
+        
+        # 搜索
+        if params[:keyword]
+          @items = @items.search("#{params[:keyword]}")
+        end
         
         # 排序
         @items = @items.sort_by(params[:sort])

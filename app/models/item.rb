@@ -27,6 +27,9 @@ class Item < ActiveRecord::Base
     :title => 'A',
     :placement => 'B',
     :intro => 'C',
+  },
+  :using => {
+    :tsearch => { :dictionary => "lease_goods_zhcfg", :negation => true }
   }
   
   # 排序

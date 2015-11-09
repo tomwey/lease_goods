@@ -48,15 +48,15 @@ module V1
         
         # 搜索
         if params[:keyword]
-          @items = @items.search("#{params[:keyword]}")
-        end
-        
-        # 排序
-        @items = @items.sort_by(params[:sort])
-        
-        # 分页处理
-        if params[:page]
-          @items = @items.paginate page: params[:page], per_page: page_size
+          @items = @items.search(params).results
+        else
+          # 排序
+          @items = @items.sort_by_value(params[:sort])
+          
+          # 分页处理
+          if params[:page]
+            @items = @items.paginate page: params[:page], per_page: page_size
+          end
         end
         
         if @items.empty?

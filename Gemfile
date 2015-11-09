@@ -9,7 +9,9 @@ gem 'rgeo'
 gem 'activerecord-postgis-adapter'
 
 # Add Text Full Search with Postgresql func
-gem 'pg_search'
+# gem 'pg_search'
+# Elasticsearch
+gem 'tire'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'

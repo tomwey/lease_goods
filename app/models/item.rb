@@ -1,5 +1,16 @@
 class Item < ActiveRecord::Base
-  include PgSearch # 加入全文检索功能
+  # include PgSearch # 加入全文检索功能
+  include Tire::Model::Search
+  include Tire::Model::Callbacks
+  
+  mapping do
+    indexes :id, type: 'integer'
+    indexes :tag_id, type: 'integer'
+    indexes :tag_name
+    indexes :title#, boost: 10
+    indexes :placement
+    indexes :intro
+  end
   
   attr_accessor :is_favorited
   
@@ -23,17 +34,31 @@ class Item < ActiveRecord::Base
     where("st_dwithin(location, 'point(#{longitude} #{latitude})', #{range})") }
   
   # 全文检索scope
-  pg_search_scope :search, :against => {
-    :title => 'A',
-    :placement => 'B',
-    :intro => 'C',
-  },
-  :using => {
-    :tsearch => { :dictionary => "lease_goods_zhcfg", :negation => true }
-  }
+  # pg_search_scope :search, :against => {
+  #   :title => 'A',
+  #   :placement => 'B',
+  #   :intro => 'C',
+  # },
+  # :using => {
+  #   :tsearch => { :dictionary => "lease_goods_zhcfg", :negation => true }
+  # }
+  # scope :search, -> (keyword) { order('id desc') }
+  
+  def self.search(params)
+    size = params[:size].to_i
+    size = size.zero? ? 15 : size
+        
+    tire.search(load: true, page: params[:page], per_page: [size, 100].min) do
+      query { string params[:keyword] } if params[:keyword].present?
+    end
+  end
+  
+  def to_indexed_json
+    to_json(methods: [:tag_name])
+  end
   
   # 排序
-  def self.sort_by(value)
+  def self.sort_by_value(value)
     if value.blank?
       order('id DESC')
     else
@@ -72,6 +97,10 @@ class Item < ActiveRecord::Base
   # 获取第一条评论
   def first_comment
     comments.order('id desc').first
+  end
+  
+  def tag_name
+    tag.try(:name)
   end
   
   # 获取评分

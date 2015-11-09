@@ -50,6 +50,14 @@ class Item < ActiveRecord::Base
         
     tire.search(load: true, page: params[:page], per_page: [size, 100].min) do
       query { string params[:keyword] } if params[:keyword].present?
+      sort do |t|
+        if params[:sort]
+          params[:sort].split(',').each do |s|
+            sv = s.split(' ')
+            t.by sv.first.to_sym, order: sv.last.to_sym
+          end
+        end
+      end
     end
   end
   

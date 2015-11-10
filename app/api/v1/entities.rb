@@ -79,5 +79,24 @@ module V1
       end
     end
     
+    # SimpleMessage
+    class SimpleMessage < Base
+      expose :content
+      expose :sent_at, format_with: :chinese_datetime
+    end
+    
+    # Message
+    class Message < SimpleMessage
+      expose :sender, using: V1::Entities::UserNoToken
+      expose :receiver, using: V1::Entities::UserNoToken
+    end
+    
+    # Chat
+    class Chat < Base
+      expose :friend, using: V1::Entities::UserNoToken
+      expose :latest_message, using: V1::Entities::SimpleMessage
+      expose :unread_count, as: :unread_messages_count
+    end
+    
   end
 end

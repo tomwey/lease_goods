@@ -6,6 +6,11 @@ class Message < ActiveRecord::Base
   
   after_create :deliver_message
   def deliver_message
+    if content.present? and self.receiver
+      to = []
+      to << self.receiver.private_token
+      PushService.push(content, to)
+    end
     
   end
   

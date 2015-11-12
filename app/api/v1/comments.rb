@@ -25,11 +25,7 @@ module V1
           @comments = @comments.paginate page: params[:page], per_page: page_size
         end
         
-        if @comments.empty?
-          render_empty_collection
-        else
-          render_json(@comments, V1::Entities::CommentDetail)
-        end
+        render_collection(@comments, V1::Entities::CommentDetail)
         
       end # end get
             

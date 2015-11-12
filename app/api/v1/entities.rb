@@ -98,5 +98,18 @@ module V1
       expose :unread_count, as: :unread_messages_count
     end
     
+    # Order
+    class Order < Base
+      with_options(format_with: :null) do
+        expose :order_no, :state
+      end
+      expose :state_name
+      expose :total_price
+      expose :deposit
+      expose :created_at, format_with: :chinese_datetime
+      expose :item, using: V1::Entities::Item
+      # expose :actions
+    end
+    
   end
 end

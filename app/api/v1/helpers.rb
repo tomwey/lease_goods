@@ -32,12 +32,20 @@ module V1
       body ( { code: 0, message:'ok', data: body, total: total } )
     end
     
-    def render_empty_object
-      { code: 0, message: "ok", data: {} }
+    def render_collection(collection, grape_entity)
+      if collection.empty?
+        { code: 0, message: "ok", data: [] }
+      else
+        render_json(collection, grape_entity)
+      end
     end
     
-    def render_empty_collection
-      { code: 0, message: "ok", data: [] }
+    def render_object(object, grape_entity)
+      if target.blank?
+        return { code: 0, message: "ok", data: {} }
+      end
+      
+      render_json(object, grape_entity)
     end
     
     def render_json_no_data

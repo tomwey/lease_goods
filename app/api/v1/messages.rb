@@ -48,11 +48,8 @@ module V1
           chat.fetch_friend_for_user(user)
         end
         
-        if chats.empty?
-          render_empty_collection
-        else
-          render_json(chats, V1::Entities::Chat)
-        end
+        render_collection(chats, V1::Entities::Chat)
+        
       end # end get /
       
       # 读某个会话下面的消息
@@ -79,11 +76,8 @@ module V1
         @messages.where(to: user.id).update_all(unread: false)
         
         # 返回数据
-        if @messages.empty?
-          render_empty_collection
-        else
-          render_json(@messages, V1::Entities::Message)
-        end
+        render_collection(@messages, V1::Entities::Message)
+          
       end # end read
       
     end # end messages resource

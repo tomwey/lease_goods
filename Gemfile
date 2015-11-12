@@ -65,6 +65,8 @@ gem 'grape-swagger-rails', '~> 0.1.0'
 
 gem 'jpush'
 
+gem 'state_machine'
+
 # API性能统计
 gem 'newrelic_rpm'
 gem 'newrelic-grape'

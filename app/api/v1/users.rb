@@ -61,7 +61,7 @@ module V1
       get :info do
         user = User.find_by(id: params[:user_id])
         if user.blank?
-          return render_empty_object
+          return render_error(4004, '没找到该用户')
         end
         
         render_json(user, V1::Entities::UserNoToken)
@@ -80,15 +80,17 @@ module V1
           @items = @items.paginate page: params[:page], per_page: page_size
         end
         
-        if @items.empty?
-          render_empty_collection
-        else
-          if params[:page]
-            render_paginate_json(@items, @items.total_entries, V1::Entities::Item)
-          else
-            render_json(@items, V1::Entities::Item)
-          end
-        end
+        render_collection(@items, V1::Entities::Item)
+        
+        # if @items.empty?
+        #   render_empty_collection
+        # else
+        #   if params[:page]
+        #     render_paginate_json(@items, @items.total_entries, V1::Entities::Item)
+        #   else
+        #     render_json(@items, V1::Entities::Item)
+        #   end
+        # end
         
       end # end get favorited_items
       
@@ -150,11 +152,7 @@ module V1
           @users = @users.paginate page: params[:page], per_page: page_size
         end
         
-        if @users.empty?
-          render_empty_collection
-        else
-          render_json(@users, V1::Entities::UserNoToken)
-        end
+        render_collection(@users, V1::Entities::UserNoToken)
         
       end # end get following_users
       
@@ -171,11 +169,7 @@ module V1
           @users = @users.paginate page: params[:page], per_page: page_size
         end
         
-        if @users.empty?
-          render_empty_collection
-        else
-          render_json(@users, V1::Entities::UserNoToken)
-        end
+        render_collection(@users, V1::Entities::UserNoToken)
         
       end # end get followers
       

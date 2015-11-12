@@ -59,11 +59,7 @@ module V1
           end
         end
         
-        if @items.empty?
-          render_empty_collection
-        else
-          render_json(@items, V1::Entities::Item)
-        end
+        render_collection(@items, V1::Entities::Item)
         
       end # end get nearby
       

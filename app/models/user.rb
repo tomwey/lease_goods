@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   
   has_many :items, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :trades
   
   validates :mobile, presence: true
   validates :mobile, format: { with: /\A1[3|4|5|8|7][0-9]\d{4,8}\z/, message: "请输入11位正确手机号" }, 
@@ -116,6 +117,18 @@ class User < ActiveRecord::Base
     self.save!
     
     true
+  end
+  
+  # 更新余额
+  def update_balance(total, msg, type = 1)
+    User.transaction do
+      self.balance += total
+      if self.balance <= 0
+        self.balance = 0
+      end
+      self.save!
+      Trade.create!(money: total, intro: msg, pay_type: type, user_id: self.id)
+    end
   end
   
   # 禁用用户

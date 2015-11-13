@@ -9,7 +9,9 @@ class Message < ActiveRecord::Base
     if content.present? and self.receiver
       to = []
       to << self.receiver.private_token
-      PushService.push(content, to, { actor: { id: self.sender.try(:id), nickname: self.sender.try(:nickname) || '匿名', avatar: self.sender.try(:real_avatar_url), msg: self.content || '' } })
+      ScheduledWorker.perform_at(3.seconds.from_now, 20)
+      PushWorker.perform_async(content, to, { actor: { id: self.sender.try(:id), nickname: self.sender.try(:nickname) || '匿名', avatar: self.sender.try(:real_avatar_url), msg: self.content || '' } } )
+      # PushService.push(content, to, { actor: { id: self.sender.try(:id), nickname: self.sender.try(:nickname) || '匿名', avatar: self.sender.try(:real_avatar_url), msg: self.content || '' } })
     end
     
   end

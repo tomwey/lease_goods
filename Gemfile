@@ -1,7 +1,7 @@
 source 'https://ruby.taobao.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.6'
+gem 'rails', '4.2.4'
 # Use postgresql as the database for Active Record
 
 gem 'pg'
@@ -34,7 +34,8 @@ gem 'bootstrap_helper', '4.2.3'
 
 # 后台管理系统
 # gem 'activeadmin', '~> 1.0.0.pre2'
-gem 'activeadmin'
+# gem 'activeadmin'
+gem 'activeadmin', github: 'activeadmin'
 
 # 登陆
 gem 'devise'

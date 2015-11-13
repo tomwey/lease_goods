@@ -82,7 +82,7 @@ module V1
     # SimpleMessage
     class SimpleMessage < Base
       expose :content
-      expose :sent_at, format_with: :chinese_datetime
+      expose :created_at, as: :sent_at, format_with: :chinese_datetime
     end
     
     # Message

@@ -48,14 +48,14 @@ module V1
         end
         
         ActiveRecord::Base.transaction do
-          Order.create!(item_id: item.id, 
-                        user_id: user.id, 
+          Order.create!(item_id: item.id,
+                        user_id: user.id,
                         refunded_on: Date.parse(params[:refunded_on]),
                         rented_on: Date.parse(params[:rented_on]),
                         total_price: total,
                         deposit: item.deposit,
                         note: params[:note])
-                                    
+
           user.update_balance(-total, '支付订单')
         end
         
@@ -92,7 +92,7 @@ module V1
         render_collection(@orders, V1::Entities::Order)
       end # end get list
       
-    end # end resource order
+    end # end resource orders
     
     resource :order do
       # 操作订单

@@ -49,12 +49,12 @@ module V1
         
         ActiveRecord::Base.transaction do
           Order.create!(item_id: item.id, 
-                                    user_id: user.id, 
-                                    refunded_on: Date.parse(params[:refunded_on]),
-                                    rented_on: Date.parse(params[:rented_on]),
-                                    total_price: total,
-                                    deposit: item.deposit,
-                                    note: params[:note])
+                        user_id: user.id, 
+                        refunded_on: Date.parse(params[:refunded_on]),
+                        rented_on: Date.parse(params[:rented_on]),
+                        total_price: total,
+                        deposit: item.deposit,
+                        note: params[:note])
                                     
           user.update_balance(-total, '支付订单')
         end
@@ -115,7 +115,7 @@ module V1
         end
         
         if order.send(params[:action].to_sym)
-          render_json_no_data
+          render_object(order, V1::Entities::Order)
         else
           render_error(6003, '操作订单失败')
         end

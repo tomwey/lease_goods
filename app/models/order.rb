@@ -13,6 +13,11 @@ class Order < ActiveRecord::Base
     self.order_no = Time.now.to_s(:number)[2,6] + (Time.now.to_i - Date.today.to_time.to_i).to_s + Time.now.nsec.to_s[0,6]
   end
   
+  after_create :notify_seller
+  def notify_seller
+    PushService.push('您收到一个订单，快去确认订单吧')
+  end
+  
   # 显示state_name
   def state_name
     case state.to_sym

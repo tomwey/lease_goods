@@ -71,8 +71,19 @@ gem 'state_machine'
 gem 'newrelic_rpm'
 gem 'newrelic-grape'
 
-# gem 'state_machine'
+# 队列
+gem 'sidekiq'
+gem 'sinatra', :require => nil
 
+# redis
+gem 'redis'
+gem 'hiredis'
+# redis 命名空间
+gem 'redis-namespace'
+# 将一些数据存放入 Redis
+gem 'redis-objects'
+
+# rest请求
 gem 'rest-client'
 
 gem 'rack-cors', require: 'rack/cors'

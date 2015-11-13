@@ -33,6 +33,15 @@ module V1
         render_json(msg, V1::Entities::Message)
       end # end post send
       
+      # 获取未读消息条数
+      desc "获取未读消息条数"
+      params do
+        requires :token, type: String, desc: "用户认证Token"
+      end
+      get :unread_count do
+        user = authenticate!
+      end # end get unread_count
+      
       # 获取所有的会话
       desc "获取所有的消息会话列表"
       params do

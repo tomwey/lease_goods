@@ -10,4 +10,9 @@ Rails.application.routes.draw do
   mount GrapeSwaggerRails::Engine => '/apidoc'
   mount API::Dispatch => '/api'
   
+  require 'sidekiq/web'
+  authenticate :admin do
+    mount Sidekiq::Web => 'sidekiq'
+  end
+  
 end

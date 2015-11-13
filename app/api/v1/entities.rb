@@ -108,8 +108,11 @@ module V1
       expose :deposit
       expose :created_at, format_with: :chinese_datetime
       expose :item, using: V1::Entities::Item
-      # expose :actions
-    end
+      expose :actions do |order, opts|
+        user = opts[:data][:current_user]
+        order.actions_for(user)
+      end
+    end # end Order class
     
   end
 end

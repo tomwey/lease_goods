@@ -89,7 +89,7 @@ module V1
           @orders = @orders.paginate page: params[:page], per_page: page_size
         end
         
-        render_collection(@orders, V1::Entities::Order)
+        render_collection(@orders, V1::Entities::Order, { current_user: user })
       end # end get list
     end # end resource orders
     
@@ -133,7 +133,7 @@ module V1
             end
             Message.create!(content: msg, to: to)
           end
-          render_object(order, V1::Entities::Order)
+          render_object(order, V1::Entities::Order, { current_user: user })
         else
           render_error(6003, '操作订单失败')
         end

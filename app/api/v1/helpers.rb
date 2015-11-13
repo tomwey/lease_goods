@@ -22,8 +22,8 @@ module V1
       [size, max_page_size].min
     end
   
-    def render_json(target, grape_entity)
-      present target, :with => grape_entity
+    def render_json(target, grape_entity, opts = {})
+      present target, :with => grape_entity, :data => opts
       body ( { code: 0, message:'ok', data: body } )
     end
     
@@ -32,11 +32,11 @@ module V1
       body ( { code: 0, message:'ok', data: body, total: total } )
     end
     
-    def render_collection(collection, grape_entity)
+    def render_collection(collection, grape_entity, opts = {})
       if collection.empty?
         { code: 0, message: "ok", data: [] }
       else
-        render_json(collection, grape_entity)
+        render_json(collection, grape_entity, opts)
       end
     end
     
@@ -45,7 +45,7 @@ module V1
         return { code: 0, message: "ok", data: {} }
       end
       
-      render_json(object, grape_entity)
+      render_json(object, grape_entity, opts)
     end
     
     def render_json_no_data

@@ -4,6 +4,8 @@ class Order < ActiveRecord::Base
   
   # has_many :actions
   
+  # attr_accessor :actions
+  
   ACTIONS = %W(confirm cancel rent refund comment)
   ACTION_INTROS = %W(确认订单 取消订单 确认出租 确认归还 评价)
   
@@ -37,6 +39,32 @@ class Order < ActiveRecord::Base
     else
       return false
     end
+  end
+  
+  def actions_for(user)
+    actions = []
+    
+    is_seller = user.is_seller?(item)
+    Order::ACTIONS.each_with_index do |action, idx|
+      
+      flag = self.send("can_#{action}?")
+      if action != 'cancel' or action != 'comment'
+        flag = flag && is_seller
+      end
+      
+      if action == 'comment' && !is_seller
+        flag = true
+      end
+      
+      if flag
+        action_hash = {}
+        action_hash[:action] = action
+        action_hash[:action_name] = Order::ACTION_INTROS[idx]
+        actions << action_hash
+      end
+      
+    end
+    
   end
   
   # 显示state_name

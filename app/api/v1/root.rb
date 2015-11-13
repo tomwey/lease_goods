@@ -55,6 +55,7 @@ module V1
     mount V1::Comments
     mount V1::Reports
     mount V1::Messages
+    mount V1::Orders
     
     add_swagger_documentation(
       :api_version => "api/v1",

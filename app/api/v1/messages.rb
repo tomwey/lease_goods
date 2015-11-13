@@ -24,9 +24,10 @@ module V1
           return render_error(-4, "您不能跟自己聊天")
         end
         # 开启会话
-        chat = Chat.where('item_id = :item_id and ( (creator_id = :id1 and actor_id = :id2) or (creator_id = :id2 and actor_id = :id1) )', item_id: params[:item_id], id1: sender.id, id2: params[:receiver_id]).first_or_create
-        if chat.blank?
-          return render_error(-5, "开启聊天会话失败")
+        chat = Chat.where('item_id = :item_id and ( (creator_id = :id1 and actor_id = :id2) or (creator_id = :id2 and actor_id = :id1) )', item_id: params[:item_id], id1: sender.id, id2: params[:receiver_id]).first
+        if chat.blank? #or Chat.create!(creator_id: sender.id, actor_id: params[:receiver_id], item_id: params[:item_id]).blank?
+          # return render_error(-5, "开启聊天会话失败")
+          chat = Chat.create!(creator_id: sender.id, actor_id: params[:receiver_id], item_id: params[:item_id])
         end
         # 发送消息
         msg = Message.create!(from: sender.id, to: params[:receiver_id], content: params[:content], chat_id: chat.id)

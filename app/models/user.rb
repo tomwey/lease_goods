@@ -127,8 +127,18 @@ class User < ActiveRecord::Base
         self.balance = 0
       end
       self.save!
-      Trade.create!(money: total, intro: msg, pay_type: type, user_id: self.id)
+      if total <= 0
+        money = total.to_s
+      else
+        money = "+#{total.to_s}"
+      end
+      Trade.create!(money: money, intro: msg, pay_type: type, user_id: self.id)
     end
+  end
+  
+  def is_seller?(item)
+    return false if item.blank?
+    item.user.id == self.id
   end
   
   # 禁用用户

@@ -52,6 +52,11 @@ module CentralServices
     
     config.middleware.insert 0, Rack::UTF8Sanitizer
     
+    config.active_job.queue_adapter = :sidekiq
+    
+    # remove warnings
+    config.active_record.raise_in_transactional_callbacks = true
+    
   end
 end
 

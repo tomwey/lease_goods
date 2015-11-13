@@ -33,7 +33,7 @@ module V1
         end
         
         # 计算总价
-        days = (Date.parse(params[:refunded_on]) - Date.parse(params[:rented_on]).to_i
+        days = (Date.parse(params[:refunded_on]) - Date.parse(params[:rented_on])).to_i
         if days < 0
           return render_error(-1, '不正确的归还日期，必须大于或等于起租日期')
         end
@@ -91,7 +91,6 @@ module V1
         
         render_collection(@orders, V1::Entities::Order)
       end # end get list
-      
     end # end resource orders
     
     resource :order do
@@ -105,7 +104,8 @@ module V1
       post :handle do
         user = authenticate!
         
-        order = user.orders.find_by(order_no: params[:order_no])
+        # order = user.orders.find_by(order_no: params[:order_no])
+        order = Order.joins(:item).where('order_no = :no and (items.user_id = :user_id or user_id = :user_id)', no: params[:order_no], user_id: user.id).first
         if order.blank?
           return render_error(4004, '该订单不存在')
         end
@@ -114,7 +114,25 @@ module V1
           return render_error(-1, '不正确的action参数值')
         end
         
+        # 操作权限检查
+        is_seller = user.is_seller?(order.item)
+        if order.not_allow_for?(params[:action].to_sym, is_seller)
+          idx = Order::ACTIONS.index(params[:action].to_s)
+          return render_error(-6, "您不能进行#{Order::ACTION_INTROS[idx]}操作")
+        end
+        
         if order.send(params[:action].to_sym)
+          if params[:action] == 'cancel'
+            # 发送取消消息
+            if user.id == order.user.id
+              msg = '买家取消了订单'
+              to = %W(#{order.item.user.id})
+            else
+              msg = '卖家取消了订单'
+              to = %W(#{user.id})
+            end
+            Message.create!(content: msg, to: to)
+          end
           render_object(order, V1::Entities::Order)
         else
           render_error(6003, '操作订单失败')

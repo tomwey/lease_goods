@@ -14,8 +14,8 @@ class Item < ActiveRecord::Base
   
   attr_accessor :is_favorited
   
-  GEO_FACTORY = RGeo::Geographic.spherical_factory(srid: 4326)
-  set_rgeo_factory_for_column :location, GEO_FACTORY
+  # GEO_FACTORY = RGeo::Geographic.spherical_factory(srid: 4326)
+  # set_rgeo_factory_for_column :location, GEO_FACTORY
     
   belongs_to :tag
   belongs_to :user, counter_cache: true

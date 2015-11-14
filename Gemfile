@@ -33,9 +33,9 @@ gem 'will_paginate-bootstrap'
 gem 'bootstrap_helper', '4.2.3'
 
 # 后台管理系统
-# gem 'activeadmin', '~> 1.0.0.pre2'
+gem 'activeadmin', '~> 1.0.0.pre2'
 # gem 'activeadmin'
-gem 'activeadmin', github: 'activeadmin'
+# gem 'activeadmin', github: 'activeadmin'
 
 # 登陆
 gem 'devise'

@@ -26,18 +26,12 @@ class Order < ActiveRecord::Base
   
   def not_allow_for?(action_sym, is_seller)
     case action_sym
-    when :confirm
-      return can_confirm? and is_seller # 卖家确认订单
-    when :cancel
-      return can_cancel?
-    when :rent
-      return can_rent? and is_seller # 卖家确认出租
-    when :refund
-      return can_refund? and is_seller # 卖家确认归还
-    when :comment
-      return can_comment? and not is_seller # 买家评论
-    else
-      return false
+    when :confirm then (can_confirm? and is_seller) # 卖家确认订单
+    when :cancel then can_cancel?
+    when :rent then (can_rent? and is_seller) # 卖家确认出租
+    when :refund then (can_refund? and is_seller) # 卖家确认归还
+    when :comment then (can_comment? and not is_seller) # 买家评论
+    else false
     end
   end
   

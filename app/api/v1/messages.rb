@@ -31,6 +31,9 @@ module V1
         end
         # 发送消息
         msg = Message.create!(from: sender.id, to: params[:receiver_id], content: params[:content], chat_id: chat.id)
+        
+        msg.receiver.update_unread_for_chat(msg.chat)
+        
         render_json(msg, V1::Entities::Message)
       end # end post send
       
@@ -41,6 +44,7 @@ module V1
       end
       get :unread_count do
         user = authenticate!
+        { code: 0, message: 'ok', data: { total: user.unread_count } }
       end # end get unread_count
       
       # 获取所有的会话
@@ -84,6 +88,9 @@ module V1
         
         # 将未读消息标记为已读
         @messages.where(to: user.id).update_all(unread: false)
+        
+        # 重置未读总数为0
+        user.reset_unread_count_for_chat(chat)
         
         # 返回数据
         render_collection(@messages, V1::Entities::Message)

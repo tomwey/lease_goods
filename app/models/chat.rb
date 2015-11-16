@@ -11,7 +11,8 @@ class Chat < ActiveRecord::Base
   validates_presence_of :creator_id, :actor_id
   
   def unread_count_for_user(user)
-    self.unread_count = messages.where('unread = ? and to = ?', true, user.id).count
+    self.unread_count = user.unread_count_for_chat(self)
+     #messages.where('unread = ? and to = ?', true, user.id).count
   end
   
   def fetch_friend_for_user(user)

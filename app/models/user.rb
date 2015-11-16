@@ -32,6 +32,45 @@ class User < ActiveRecord::Base
     
   end
   
+  def update_unread_for_chat(chat)
+    key = redis_key(chat)
+    count = $redis.get(key).to_i
+    $redis.set(key, count + 1)
+    
+    total = $redis.get(redis_total_key).to_i
+    $redis.set(redis_total_key, total + 1)
+  end
+  
+  def unread_count_for_chat(chat)
+    key = redis_key(chat)
+    count = $redis.get(key).to_i
+    count
+  end
+  
+  def unread_count
+    $redis.get(redis_total_key).to_i
+  end
+  
+  def reset_unread_count_for_chat(chat)
+    key = redis_key(chat)
+    count = $redis.get(key).to_i
+    $redis.set(redis_key(chat), 0)
+    
+    total = $redis.get(redis_total_key).to_i
+    if total - count >= 0
+      $redis.set(redis_total_key, total - count)
+    end
+    
+  end
+  
+  def redis_total_key
+    "user:#{self.id}"
+  end
+  
+  def redis_key(chat)
+    "user:#{self.id}:chat:#{chat.id}"
+  end
+  
   # 收藏产品
   def favorite_item(item_id)
     return false if item_id.blank?

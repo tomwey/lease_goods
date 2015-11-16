@@ -14,7 +14,7 @@ set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 
 set :keep_releases, 5
 
-set :linked_files, %w{config/database.yml config/config.yml}
+set :linked_files, %w{config/database.yml config/config.yml config/redis.yml}
 
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/uploads public/system}
 
@@ -25,6 +25,7 @@ set(:config_files, %w(
   nginx.conf
   database.yml
   config.yml
+  redis.yml
   log_rotation
   unicorn.rb
   unicorn_init.sh
@@ -50,7 +51,7 @@ set(:symlinks, [
   },
   {
     source: "log_rotation",
-   link: "/etc/logrotate.d/{{full_app_name}}"
+    link: "/etc/logrotate.d/{{full_app_name}}"
   },
   # {
   #   source: "monit",

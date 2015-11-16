@@ -1,10 +1,19 @@
 # Options here can still be overridden by cmd line args.
 #   sidekiq -C sidekiq.yml
 ---
-:concurrency: 20
+:concurrency: 5
 :pidfile: tmp/pids/sidekiq.pid
 :logfile: log/sidekiq.log
 :queues:
   - [messages, 100]
   - [scheduled_jobs, 50]
   - [default, 3]
+  
+development:
+  :concurrency: 5
+
+staging:
+  :concurrency: 10
+  
+production:
+  :concurrency: 20

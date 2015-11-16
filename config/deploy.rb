@@ -1,11 +1,14 @@
 # config valid only for Capistrano 3.1
-lock '3.2.1'
+lock '3.4.0'
 
 set :application, 'lease_goods'
 set :deploy_user, "deployer"
 
 set :scm, :git
 set :repo_url, "git@github.com:tomwey/#{fetch(:application)}.git"
+
+set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
+set :pty,  false
 
 set :rbenv_type, :user
 set :rbenv_ruby, '2.0.0-p353'

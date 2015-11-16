@@ -107,6 +107,8 @@ group :development do
   # if you are using RBENV
   gem 'capistrano-rbenv', "~> 2.0" 
   
+  gem 'capistrano-sidekiq'
+  
   gem 'quiet_assets'
   
   gem 'annotate', '~> 2.6.5'

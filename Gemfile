@@ -25,6 +25,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # 上传组件
 gem 'carrierwave', '~> 0.10.0'
 gem 'mini_magick','~> 4.2.7'#, require: false
+gem 'carrierwave-webp'
 
 gem 'bootstrap-sass', '~> 3.2.0'
 

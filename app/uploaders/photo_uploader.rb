@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 class PhotoUploader < BaseUploader
   include CarrierWave::WebP::Converter
 

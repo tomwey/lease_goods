@@ -24,6 +24,8 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # 上传组件
 gem 'carrierwave', '~> 0.10.0'
+# 下面的版本支持多图上传
+# gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 gem 'mini_magick','~> 4.2.7'#, require: false
 gem 'carrierwave-webp'
 

@@ -32,7 +32,7 @@
         placement: "发布产品的位置建筑物名称"
         intro: "产品简介"
         note: "备注"
-        photos: "产品图片集"
+        photos: "产品图片"
       photo:
         image: "产品图片"
       report:

@@ -18,9 +18,9 @@ class PhotoUploader < BaseUploader
     process resize_to_fill: [640, 360]
   end
   
-  version :webp do
-    process :convert_to_webp
-  end
+  # version :webp do
+  #   process :convert_to_webp
+  # end
 
   def filename
     if super.present?

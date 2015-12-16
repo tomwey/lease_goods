@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   validates :mobile, format: { with: /\A1[3|4|5|8|7][0-9]\d{4,8}\z/, message: "请输入11位正确手机号" }, 
   length: { is: 11 }, :uniqueness => true
   
+  validates_uniqueness_of :nickname
+  
   mount_uploader :avatar, AvatarUploader
   
   # 生成默认用户昵称
